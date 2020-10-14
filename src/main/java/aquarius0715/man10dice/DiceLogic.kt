@@ -78,7 +78,7 @@ class DiceLogic(val plugin: Man10Dice): Listener {
     
     fun adminDice(player: Player, num: Int, time: Int) {
         if (plugin.adminDiceStats) {
-            player.sendMessage("${plugin.prefix}${ChatColor.DARK_BLUE}${ChatColor.BOLD}AdminDiceはすでに始まっています。")
+            player.sendMessage("${plugin.prefix}${ChatColor.DARK_AQUA}${ChatColor.BOLD}AdminDiceはすでに始まっています。")
             return
         }
         Bukkit.broadcastMessage("${plugin.prefix}${ChatColor.YELLOW}${ChatColor.BOLD}${player.name}" +
@@ -92,7 +92,7 @@ class DiceLogic(val plugin: Man10Dice): Listener {
         object : BukkitRunnable() {
             override fun run() {
                 if (time1 % 60 == 0 && time1 != 0) {
-                    Bukkit.broadcastMessage("${plugin.prefix}${ChatColor.DARK_BLUE}${ChatColor.BOLD}" +
+                    Bukkit.broadcastMessage("${plugin.prefix}${ChatColor.DARK_AQUA}${ChatColor.BOLD}" +
                             "残り${ChatColor.YELLOW}${ChatColor.BOLD}" +
                             "${time1 / 60}${ChatColor.DARK_AQUA}${ChatColor.BOLD}分です。")
                 }
