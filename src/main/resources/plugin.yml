@@ -1,0 +1,6 @@
+name: Man10Dice
+version: ${project.version}
+main: aquarius0715.man10dice.Man10Dice
+api-version: 1.13
+commands:
+  mdice:
