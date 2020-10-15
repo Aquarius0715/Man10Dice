@@ -52,20 +52,24 @@ class DiceCommands(val plugin: Man10Dice): CommandExecutor {
                                 return true
                             }
                             "admin" -> {
+                                if (!isMan10DiceAdmin(sender)) return false
                                 sender.sendMessage("${plugin.prefix}${ChatColor.DARK_AQUA}${ChatColor.BOLD}/mdice admin [面] : 面を指定してdを開始します。")
                                 sender.sendMessage("${plugin.prefix}${ChatColor.DARK_AQUA}${ChatColor.BOLD}/mdice 100d : 100dを開催します。")
                                 sender.sendMessage("${plugin.prefix}${ChatColor.DARK_AQUA}${ChatColor.BOLD}/mdice 50d : 50dを開催します。")
                                 return true
                             }
                             "normal" -> {
+                                if (!isMan10DiceAdmin(sender)) return false
                                 sender.sendMessage("${plugin.prefix}${ChatColor.DARK_AQUA}${ChatColor.BOLD}/mdice normal [面] : 通常のダイスを面を指定して振ります。")
                                 return true
                             }
                             "global" -> {
+                                if (!isMan10DiceAdmin(sender)) return false
                                 sender.sendMessage("${plugin.prefix}${ChatColor.DARK_AQUA}${ChatColor.BOLD}/mdice global [面] : 面を指定して全体に通知するダイスを振ります。")
                                 return true
                             }
                             "local" -> {
+                                if (!isMan10DiceAdmin(sender)) return false
                                 sender.sendMessage("${plugin.prefix}${ChatColor.DARK_AQUA}${ChatColor.BOLD}/mdice local [面] [半径] : 範囲、面を指定して、範囲内に通知するダイスを振ります。")
                                 return true
                             }
@@ -100,17 +104,13 @@ class DiceCommands(val plugin: Man10Dice): CommandExecutor {
                                 plugin.dice.globalDice(sender, args[1].toInt())
                                 return true
                             }
-                        }
-                    }
-                    3 -> {
-                        when (args[0]) {
                             "local" -> {
                                 if (!isMan10DiceAdmin(sender)) return false
                                 if (!isNumber(args = args)) {
                                     sender.sendMessage("${plugin.prefix}${ChatColor.DARK_AQUA}${ChatColor.BOLD}正の数を入力してください。")
                                     return false
                                 }
-                                plugin.dice.localDice(sender, args[1].toInt(), args[2].toDouble())
+                                plugin.dice.localDice(sender, args[1].toInt())
                                 return true
                             }
                         }

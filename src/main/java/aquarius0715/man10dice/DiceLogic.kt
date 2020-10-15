@@ -30,11 +30,11 @@ class DiceLogic(val plugin: Man10Dice): Listener {
         }.runTaskLater(plugin, 20 * 3)
     }
 
-    fun localDice(player: Player, num: Int, distance: Double) {
+    fun localDice(player: Player, num: Int) {
         if (isCoolDown(player)) return
         player.sendMessage("${plugin.prefix}${ChatColor.YELLOW}${ChatColor.BOLD}${player.name}" +
                 "${ChatColor.DARK_AQUA}${ChatColor.BOLD}がダイスを振っています・・・${ChatColor.MAGIC}${ChatColor.BOLD}aaa")
-        for (players in player.getNearbyEntities(distance, distance, distance)) {
+        for (players in player.getNearbyEntities(20.0, 20.0, 20.0)) {
             if (players is Player) {
                 players.sendMessage("${plugin.prefix}${ChatColor.YELLOW}${ChatColor.BOLD}${player.name}" +
                         "${ChatColor.DARK_AQUA}${ChatColor.BOLD}がダイスを振っています・・・${ChatColor.MAGIC}${ChatColor.BOLD}aaa")
@@ -50,7 +50,7 @@ class DiceLogic(val plugin: Man10Dice): Listener {
                         "${ChatColor.YELLOW}${ChatColor.BOLD}${rnd}" +
                         "${ChatColor.DARK_AQUA}${ChatColor.BOLD}が出た！！！")
                 player.playSound(player.location, Sound.ENTITY_PLAYER_LEVELUP, 8.0F, 0.0F)
-                for (players in player.getNearbyEntities(50.0, 50.0, 50.0)) {
+                for (players in player.getNearbyEntities(20.0, 20.0, 20.0)) {
                     if (players is Player) {
                         players.sendMessage("${plugin.prefix}${ChatColor.YELLOW}${ChatColor.BOLD}${player.name}" +
                                 "${ChatColor.DARK_AQUA}${ChatColor.BOLD}が" +
