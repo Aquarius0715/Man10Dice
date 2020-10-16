@@ -19,7 +19,7 @@ class DiceLogic(val plugin: Man10Dice): Listener {
         object : BukkitRunnable() {
             override fun run() {
                 val rnd = (1..num).random()
-                player.sendMessage("${plugin.prefix}${ChatColor.YELLOW}${ChatColor.BOLD}${player.name}" +
+                Bukkit.broadcastMessage("${plugin.prefix}${ChatColor.YELLOW}${ChatColor.BOLD}${player.name}" +
                         "${ChatColor.YELLOW}${ChatColor.BOLD}${num}" +
                         "${ChatColor.DARK_AQUA}${ChatColor.BOLD}面ダイスを振って" +
                         "${ChatColor.YELLOW}${ChatColor.BOLD}${rnd}" +

@@ -32,13 +32,14 @@ class DiceCommands(val plugin: Man10Dice): CommandExecutor {
                                 if (!isMan10DiceAdmin(sender)) return false
                                 sender.sendMessage("${plugin.prefix}${ChatColor.DARK_AQUA}${ChatColor.BOLD}/mdice : 6面ダイスを振ります。")
                                 sender.sendMessage("${plugin.prefix}${ChatColor.DARK_AQUA}${ChatColor.BOLD}/mdice help : この説明画面を開きます。")
-                                sender.sendMessage("${plugin.prefix}${ChatColor.DARK_AQUA}${ChatColor.BOLD}/mdice local [面] [半径] : 範囲、面を指定して、範囲内に通知するダイスを振ります。")
+                                sender.sendMessage("${plugin.prefix}${ChatColor.DARK_AQUA}${ChatColor.BOLD}/mdice local [面] : 面を指定して、半径20ブロック内に通知するダイスを振ります。")
                                 sender.sendMessage("${plugin.prefix}${ChatColor.DARK_AQUA}${ChatColor.BOLD}/mdice global [面] : 面を指定して全体に通知するダイスを振ります。")
                                 sender.sendMessage("${plugin.prefix}${ChatColor.DARK_AQUA}${ChatColor.BOLD}/mdice normal [面] : 通常のダイスを面を指定して振ります。")
                                 sender.sendMessage("${plugin.prefix}${ChatColor.DARK_AQUA}${ChatColor.BOLD}/mdice admin [面] : 面を指定してdを開始します。")
                                 sender.sendMessage("${plugin.prefix}${ChatColor.DARK_AQUA}${ChatColor.BOLD}/mdice 100d : 100dを開催します。")
                                 sender.sendMessage("${plugin.prefix}${ChatColor.DARK_AQUA}${ChatColor.BOLD}/mdice 50d : 50dを開催します。")
-                                sender.sendMessage("${plugin.prefix}${ChatColor.AQUA}${ChatColor.BOLD}Created By Aquarius0715")
+                                sender.sendMessage("${plugin.prefix}${ChatColor.DARK_AQUA}${ChatColor.BOLD}Version ${ChatColor.YELLOW}${ChatColor.BOLD}1.0.3")
+                                sender.sendMessage("${plugin.prefix}${ChatColor.AQUA}${ChatColor.BOLD}Created By ${ChatColor.YELLOW}${ChatColor.BOLD}Aquarius0715")
                                 return true
                             }
                             "100d" -> {
