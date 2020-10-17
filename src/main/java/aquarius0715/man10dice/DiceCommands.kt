@@ -39,7 +39,7 @@ class DiceCommands(val plugin: Man10Dice): CommandExecutor {
                                 sender.sendMessage("${plugin.prefix}${ChatColor.DARK_AQUA}${ChatColor.BOLD}/mdice 100d : 100dを開催します。")
                                 sender.sendMessage("${plugin.prefix}${ChatColor.DARK_AQUA}${ChatColor.BOLD}/mdice 50d : 50dを開催します。")
                                 sender.sendMessage("${plugin.prefix}${ChatColor.DARK_AQUA}${ChatColor.BOLD}Version ${ChatColor.YELLOW}${ChatColor.BOLD}1.0.3")
-                                sender.sendMessage("${plugin.prefix}${ChatColor.AQUA}${ChatColor.BOLD}Created By ${ChatColor.YELLOW}${ChatColor.BOLD}Aquarius0715")
+                                sender.sendMessage("${plugin.prefix}${ChatColor.DARK_AQUA}${ChatColor.BOLD}Created By ${ChatColor.YELLOW}${ChatColor.BOLD}Aquarius0715")
                                 return true
                             }
                             "100d" -> {

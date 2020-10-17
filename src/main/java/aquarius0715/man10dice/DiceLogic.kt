@@ -19,11 +19,7 @@ class DiceLogic(val plugin: Man10Dice): Listener {
         object : BukkitRunnable() {
             override fun run() {
                 val rnd = (1..num).random()
-                Bukkit.broadcastMessage("${plugin.prefix}${ChatColor.YELLOW}${ChatColor.BOLD}${player.name}" +
-                        "${ChatColor.YELLOW}${ChatColor.BOLD}${num}" +
-                        "${ChatColor.DARK_AQUA}${ChatColor.BOLD}面ダイスを振って" +
-                        "${ChatColor.YELLOW}${ChatColor.BOLD}${rnd}" +
-                        "${ChatColor.DARK_AQUA}${ChatColor.BOLD}が出た！！！")
+                sendResultMessage(player = player, rnd = rnd, max = num)
                 player.playSound(player.location, Sound.ENTITY_PLAYER_LEVELUP, 8.0F, 0.0F)
                 coolDown()
             }
@@ -43,21 +39,11 @@ class DiceLogic(val plugin: Man10Dice): Listener {
         object : BukkitRunnable() {
             override fun run() {
                 val rnd = (1..num).random()
-                player.sendMessage("${plugin.prefix}${ChatColor.YELLOW}${ChatColor.BOLD}${player.name}" +
-                        "${ChatColor.DARK_AQUA}${ChatColor.BOLD}が" +
-                        "${ChatColor.YELLOW}${ChatColor.BOLD}${num}" +
-                        "${ChatColor.DARK_AQUA}${ChatColor.BOLD}面ダイスを振って" +
-                        "${ChatColor.YELLOW}${ChatColor.BOLD}${rnd}" +
-                        "${ChatColor.DARK_AQUA}${ChatColor.BOLD}が出た！！！")
+                sendResultMessage(player = player, rnd = rnd, max = num)
                 player.playSound(player.location, Sound.ENTITY_PLAYER_LEVELUP, 8.0F, 0.0F)
                 for (players in player.getNearbyEntities(20.0, 20.0, 20.0)) {
                     if (players is Player) {
-                        players.sendMessage("${plugin.prefix}${ChatColor.YELLOW}${ChatColor.BOLD}${player.name}" +
-                                "${ChatColor.DARK_AQUA}${ChatColor.BOLD}が" +
-                                "${ChatColor.YELLOW}${ChatColor.BOLD}${num}" +
-                                "${ChatColor.DARK_AQUA}${ChatColor.BOLD}面ダイスを振って" +
-                                "${ChatColor.YELLOW}${ChatColor.BOLD}${rnd}" +
-                                "${ChatColor.DARK_AQUA}${ChatColor.BOLD}が出た！！！")
+                        sendResultMessage(player = player, rnd = rnd, max = num)
                         players.playSound(players.location, Sound.ENTITY_PLAYER_LEVELUP, 8.0F, 0.0F)
                     }
                 }
@@ -168,6 +154,10 @@ class DiceLogic(val plugin: Man10Dice): Listener {
                     "${ChatColor.DARK_AQUA}${ChatColor.BOLD}以下の数字を入力してください。")
             return
         }
+        if (plugin.adminDiceMap.containsKey(event.player.uniqueId)) {
+            event.player.sendMessage("${plugin.prefix}${ChatColor.DARK_AQUA}${ChatColor.BOLD}あなたはすでに数字を言っています。")
+            return
+        }
         if (plugin.adminDiceMap.containsValue(event.message.toInt())) {
             event.player.sendMessage("${plugin.prefix}${ChatColor.DARK_AQUA}${ChatColor.BOLD}その数字は言われています。")
             return
@@ -183,7 +173,17 @@ class DiceLogic(val plugin: Man10Dice): Listener {
             override fun run() {
                 plugin.coolDown = false
             }
-        }.runTaskLater(plugin, 20 * 3)
+        }.runTaskLater(plugin, 20 * 5)
+    }
+
+    private fun sendResultMessage(player: Player, rnd: Int, max: Int): Boolean {
+        Bukkit.broadcastMessage("${plugin.prefix}${ChatColor.YELLOW}${ChatColor.BOLD}${player.name}" +
+                "${ChatColor.DARK_AQUA}${ChatColor.BOLD}は" +
+                "${ChatColor.YELLOW}${ChatColor.BOLD}${max}" +
+                "${ChatColor.DARK_AQUA}${ChatColor.BOLD}面ダイスを振って" +
+                "${ChatColor.YELLOW}${ChatColor.BOLD}${rnd}" +
+                "${ChatColor.DARK_AQUA}${ChatColor.BOLD}が出た！！！")
+        return true
     }
 
     private fun isCoolDown(player: Player): Boolean {
