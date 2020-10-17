@@ -44,12 +44,12 @@ class DiceCommands(val plugin: Man10Dice): CommandExecutor {
                             }
                             "100d" -> {
                                 if (!isMan10DiceAdmin(sender)) return false
-                                plugin.dice.adminDice(sender, 100, 60)
+                                plugin.dice.adminDice(sender, 100, 30)
                                 return true
                             }
                             "50d" -> {
                                 if (!isMan10DiceAdmin(sender)) return false
-                                plugin.dice.adminDice(sender, 50, 60)
+                                plugin.dice.adminDice(sender, 50, 30)
                                 return true
                             }
                             "admin" -> {
@@ -84,7 +84,7 @@ class DiceCommands(val plugin: Man10Dice): CommandExecutor {
                                     sender.sendMessage("${plugin.prefix}${ChatColor.DARK_AQUA}${ChatColor.BOLD}正の数を入力してください。")
                                     return false
                                 }
-                                plugin.dice.adminDice(sender, args[1].toInt(), 60)
+                                plugin.dice.adminDice(sender, args[1].toInt(), 30)
                                 return true
                             }
                             "normal" -> {

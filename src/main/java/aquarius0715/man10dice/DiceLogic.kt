@@ -7,7 +7,7 @@ import org.bukkit.entity.EntityType
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
-import org.bukkit.event.player.PlayerChatEvent
+import org.bukkit.event.player.AsyncPlayerChatEvent
 import org.bukkit.scheduler.BukkitRunnable
 import java.lang.NumberFormatException
 
@@ -71,6 +71,7 @@ class DiceLogic(val plugin: Man10Dice): Listener {
                 "${ChatColor.DARK_AQUA}${ChatColor.BOLD}によって" +
                 "${ChatColor.YELLOW}${ChatColor.BOLD}${num}D" +
                 "${ChatColor.DARK_AQUA}${ChatColor.BOLD}が開始されました。")
+        plugin.holdPlayer = player
         plugin.adminDiceAccept = true
         plugin.adminDiceStats = true
         plugin.adminDiceMax = num
@@ -107,21 +108,26 @@ class DiceLogic(val plugin: Man10Dice): Listener {
                             "${ChatColor.YELLOW}${ChatColor.BOLD}${rnd}" +
                             "${ChatColor.DARK_AQUA}${ChatColor.BOLD}が出ました。")
                     for (player1 in Bukkit.getOnlinePlayers()) {
-                        player.playSound(player.location, Sound.ENTITY_PLAYER_LEVELUP, 8.0F, 0.0F)
-                        if (plugin.adminDiceMap[player1.uniqueId] == rnd) {
-                            Bukkit.broadcastMessage("${plugin.prefix}${ChatColor.GOLD}${ChatColor.BOLD}" +
-                                    player.displayName +
-                                    "さん${ChatColor.DARK_AQUA}${ChatColor.BOLD}がピッタリです！！！")
-                            player.world.spawnEntity(player.location, EntityType.FIREWORK)
-                            winnerCount++
+                        player1.playSound(player1.location, Sound.ENTITY_PLAYER_LEVELUP, 8.0F, 0.0F)
+                        if (plugin.adminDiceMap[player1.uniqueId] != rnd + 1
+                                || plugin.adminDiceMap[player1.uniqueId] != rnd - 1
+                                || plugin.adminDiceMap[player1.uniqueId] != rnd) {
                             continue
-                        }
-                        if (plugin.adminDiceMap[player1.uniqueId] == rnd + 1 || plugin.adminDiceMap[player1.uniqueId] == rnd - 1) {
-                            Bukkit.broadcastMessage("${plugin.prefix}${ChatColor.YELLOW}${ChatColor.BOLD}${player.displayName}" +
-                                    "${ChatColor.DARK_AQUA}${ChatColor.BOLD}さんがニアミスです！！！")
-                            player.world.spawnEntity(player.location, EntityType.FIREWORK)
-                            winnerCount++
-                            continue
+                        } else {
+                            if (plugin.adminDiceMap[player1.uniqueId] == rnd) {
+                                Bukkit.broadcastMessage("${plugin.prefix}${ChatColor.GOLD}${ChatColor.BOLD}" +
+                                        player1.displayName +
+                                        "さん${ChatColor.DARK_AQUA}${ChatColor.BOLD}がピッタリです！！！")
+                                player1.world.spawnEntity(player1.location, EntityType.FIREWORK)
+                                winnerCount++
+                                continue
+                            } else {
+                                Bukkit.broadcastMessage("${plugin.prefix}${ChatColor.YELLOW}${ChatColor.BOLD}${player.displayName}" +
+                                        "${ChatColor.DARK_AQUA}${ChatColor.BOLD}さんがニアミスです！！！")
+                                player.world.spawnEntity(player.location, EntityType.FIREWORK)
+                                winnerCount++
+                                continue
+                            }
                         }
                     }
                     if (winnerCount == 0) {
@@ -139,7 +145,7 @@ class DiceLogic(val plugin: Man10Dice): Listener {
     }
 
     @EventHandler
-    fun onSendChat(event: PlayerChatEvent) {
+    fun onSendChat(event: AsyncPlayerChatEvent) {
         if (!plugin.adminDiceStats) return
         try {
             event.message.toInt()
@@ -154,17 +160,22 @@ class DiceLogic(val plugin: Man10Dice): Listener {
                     "${ChatColor.DARK_AQUA}${ChatColor.BOLD}以下の数字を入力してください。")
             return
         }
-        if (plugin.adminDiceMap.containsKey(event.player.uniqueId)) {
-            event.player.sendMessage("${plugin.prefix}${ChatColor.DARK_AQUA}${ChatColor.BOLD}あなたはすでに数字を言っています。")
-            return
-        }
         if (plugin.adminDiceMap.containsValue(event.message.toInt())) {
             event.player.sendMessage("${plugin.prefix}${ChatColor.DARK_AQUA}${ChatColor.BOLD}その数字は言われています。")
+            return
+        }
+        if (plugin.adminDiceMap.containsKey(event.player.uniqueId)) {
+            event.player.sendMessage("${plugin.prefix}${ChatColor.DARK_AQUA}${ChatColor.BOLD}あなたはすでに数字を言っています。")
             return
         }
         plugin.adminDiceMap[event.player.uniqueId] = event.message.toInt()
         event.player.sendMessage("${plugin.prefix}${ChatColor.YELLOW}${ChatColor.BOLD}${event.message}" +
                 "${ChatColor.DARK_AQUA}${ChatColor.BOLD}を指定しました！")
+        plugin.holdPlayer.sendMessage(plugin.prefix +
+                "${ChatColor.YELLOW}${ChatColor.BOLD}${event.player.name}" +
+                "${ChatColor.DARK_AQUA}${ChatColor.BOLD}が数字" +
+                "${ChatColor.YELLOW}${ChatColor.BOLD}${event.message.toInt()}" +
+                "${ChatColor.YELLOW}${ChatColor.BOLD}を指定しました。。")
     }
 
     fun coolDown() {

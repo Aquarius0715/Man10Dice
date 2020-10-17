@@ -1,6 +1,7 @@
 package aquarius0715.man10dice
 
 import org.bukkit.ChatColor
+import org.bukkit.entity.Player
 import org.bukkit.plugin.java.JavaPlugin
 import java.util.*
 
@@ -15,6 +16,7 @@ class Man10Dice : JavaPlugin() {
             "${ChatColor.WHITE}${ChatColor.BOLD}]"
     var adminDiceStats = false
     var adminDiceAccept = false
+    lateinit var holdPlayer: Player
     var adminDiceMax = 0
     val adminDiceMap = mutableMapOf<UUID, Int>()
     val dice = DiceLogic(this)
